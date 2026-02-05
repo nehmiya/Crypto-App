@@ -27,13 +27,12 @@ const CandleStickChart = ({
   const candleSeriesRef = useRef<ISeriesApi<"Candlestick"> | null>(null);
 
   const [isPending, startTransition] = useTransition();
-  const [loading, setLoading] = useState(false);
   const [period, setPeriod] = useState(initialPeriod);
   const [ohlcData, setohlcData] = useState<OHLCData[]>(data ?? []);
 
   const fetchOHLCData = async (selectedPeriod: Period) => {
     try {
-      const { interval, days } = PERIOD_CONFIG[selectedPeriod];
+      const { days } = PERIOD_CONFIG[selectedPeriod];
       const newData = await fetcher<OHLCData[]>(`/coins/${coinId}/ohlc`, {
         vs_currency: "usd",
         days,
@@ -66,7 +65,6 @@ const CandleStickChart = ({
       width: container.clientWidth,
     });
     const series = chart.addSeries(CandlestickSeries, getCandlestickConfig());
-    series.setData(convertOHLCData(ohlcData));
     chart.timeScale().fitContent();
 
     chartRef.current = chart;
@@ -74,31 +72,36 @@ const CandleStickChart = ({
 
     const observer = new ResizeObserver((entries) => {
       if (!entries.length) return;
-      chart.applyOptions({width:entries[0].contentRect.width})
+      chart.applyOptions({ width: entries[0].contentRect.width });
     });
 
     observer.observe(container);
 
-    return()=>{
-        observer.disconnect();
-        chart.remove()
-        chartRef.current = null;
-        candleSeriesRef.current = null
-    }
-  }, [height,period]);
+    return () => {
+      observer.disconnect();
+      chart.remove();
+      chartRef.current = null;
+      candleSeriesRef.current = null;
+    };
+  }, [height, period]);
 
-    useEffect(()=>{
-        if(!candleSeriesRef.current) return;
-        const convertToSeconds = ohlcData.map((item)=> (
-            [Math.floor(item[0]/1000),item[1], item[2],item[3],item[4]] as OHLCData
-        ))
+  useEffect(() => {
+    if (!candleSeriesRef.current) return;
+    const convertToSeconds = ohlcData.map(
+      (item) =>
+        [
+          Math.floor(item[0] / 1000),
+          item[1],
+          item[2],
+          item[3],
+          item[4],
+        ] as OHLCData,
+    );
 
-        const converted = convertOHLCData(convertToSeconds);
-        candleSeriesRef.current.setData(converted);
-        chartRef.current?.timeScale().fitContent()
-    },[ohlcData, period])
-
-
+    const converted = convertOHLCData(convertToSeconds);
+    candleSeriesRef.current.setData(converted);
+    chartRef.current?.timeScale().fitContent();
+  }, [ohlcData, period]);
 
   return (
     <div id="candlestick-chart">
@@ -117,7 +120,7 @@ const CandleStickChart = ({
               onClick={() => {
                 handlePeriodChange(value);
               }}
-              disabled={loading}
+              disabled={isPending}
             >
               {label}
             </button>

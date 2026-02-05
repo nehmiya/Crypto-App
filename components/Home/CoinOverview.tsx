@@ -5,7 +5,7 @@ import Link from "next/link";
 import { cn, formatCurrency } from "@/lib/utils";
 import { TrendingDown, TrendingUp } from "lucide-react";
 import { fetcher } from "@/lib/coingecko.actions";
-import CandleStickChart from "../CandleStickChart";
+import CandleStickChartClient from "../CandleStickChartClient";
 
 const CoinOverview = async () => {
   let coin: CoinDetailsData | undefined;
@@ -19,7 +19,6 @@ const CoinOverview = async () => {
     coinOHLCData = await fetcher<OHLCData[]>("/coins/bitcoin/ohlc", {
       vs_currency: "usd",
       days: 1,
-
     });
   } catch (error) {
     console.error("Error fetching coin details:", error);
@@ -27,7 +26,7 @@ const CoinOverview = async () => {
 
   return (
     <div id="coin-overview">
-      <CandleStickChart
+      <CandleStickChartClient
         data={coinOHLCData ?? []}
         coinId="bitcoin"
         initialPeriod="daily"
@@ -56,7 +55,7 @@ const CoinOverview = async () => {
             </div>
           )}
         </div>
-      </CandleStickChart>
+      </CandleStickChartClient>
     </div>
   );
 };
