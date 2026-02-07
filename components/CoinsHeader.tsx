@@ -52,69 +52,74 @@ const CoinsHeader: React.FC<CoinsHeaderProps> = ({ coin }) => {
 
   return (
     <div>
-    <div id="coin-header" className="mb-4">
-      <div className="flex flex-col gap-4">
-        <div className="flex items-center gap-4">
-          {coin?.image?.large ? (
-            <Image
-              src={coin.image.large}
-              alt={coin.name}
-              width={56}
-              height={56}
-              className="rounded-full"
-            />
-          ) : (
-            <div className="w-14 h-14 rounded-full bg-dark-400" />
-          )}
+      <div id="coin-header" className="mb-4">
+        <div className="flex flex-col gap-4">
+          <div className="flex items-center gap-4">
+            {coin?.image?.large ? (
+              <Image
+                src={coin.image.large}
+                alt={coin.name}
+                width={56}
+                height={56}
+                className="rounded-full"
+              />
+            ) : (
+              <div className="w-14 h-14 rounded-full bg-dark-400" />
+            )}
 
-          <div className="flex flex-col">
-            <span className="text-2xl font-bold text-purple-100">
-              {coin?.name}
-            </span>
-            <div className="flex items-center gap-2 mt-1">
-              <span
-                className={`text-3xl font-semibold tabular-nums font-mono transition-colors duration-300 ${
-                  flash === "up"
-                    ? "text-green-300"
-                    : flash === "down"
-                      ? "text-red-300"
-                      : "text-purple-100"
-                }`}
-              >
-                {formatCurrency(price ?? 0)}
+            <div className="flex flex-col">
+              <span className="text-2xl font-bold text-purple-100">
+                {coin?.name}
               </span>
-              <Badge
-                className={`${isPct24Pos ? "bg-green-500 text-green-900" : "bg-red-500 text-red-900"}`}
-              >
-                {formatPercentage(pct24 ?? 0)}
-              </Badge>
+              <div className="flex items-center gap-2 mt-1">
+                <span
+                  className={`text-3xl font-semibold tabular-nums font-mono transition-colors duration-300 ${
+                    flash === "up"
+                      ? "text-green-300"
+                      : flash === "down"
+                        ? "text-red-300"
+                        : "text-purple-100"
+                  }`}
+                >
+                  {formatCurrency(price ?? 0)}
+                </span>
+                <Badge
+                  className={`${isPct24Pos ? "bg-green-500 text-green-900" : "bg-red-500 text-red-900"}`}
+                >
+                  {formatPercentage(pct24 ?? 0)}
+                </Badge>
+              </div>
             </div>
           </div>
         </div>
 
-      </div>
-
-      <div className="mt-2">
-        <div className="flex items-center justify-start gap-0">
-          <StatItem
-            label="Today"
-            value={formatPercentage(pct24 ?? 0)}
-            positive={isPct24Pos}
-          />
-          <Separator orientation="vertical" className="mx-4 h-8 bg-purple-700/30" />
-          <StatItem
-            label="30 Days"
-            value={formatPercentage(pct30 ?? 0)}
-            positive={(pct30 ?? 0) >= 0}
-          />
-          <Separator orientation="vertical" className="mx-4 h-8 bg-purple-700/30" />
-          <StatItem
-            label="Price Change (24h)"
-            value={formatCurrency(change24 ?? 0)}
-            positive={(change24 ?? 0) >= 0}
-          />
+        <div className="mt-2">
+          <div className="flex items-center justify-start gap-0">
+            <StatItem
+              label="Today"
+              value={formatPercentage(pct24 ?? 0)}
+              positive={isPct24Pos}
+            />
+            <Separator
+              orientation="vertical"
+              className="mx-4 h-8 bg-purple-700/30"
+            />
+            <StatItem
+              label="30 Days"
+              value={formatPercentage(pct30 ?? 0)}
+              positive={(pct30 ?? 0) >= 0}
+            />
+            <Separator
+              orientation="vertical"
+              className="mx-4 h-8 bg-purple-700/30"
+            />
+            <StatItem
+              label="Price Change (24h)"
+              value={formatCurrency(change24 ?? 0)}
+              positive={(change24 ?? 0) >= 0}
+            />
+          </div>
         </div>
-      </div>
       </div>
 
       <div className="mt-4">

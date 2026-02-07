@@ -63,12 +63,17 @@ const TopMovers: React.FC<Props> = ({ markets }) => {
       cellClassName: "",
       cell: (row: CoinMarket) => (
         <Link href={`/coins/${row.id}`} className="flex items-center gap-3">
-          <Image
-            src={row.image || ""}
-            alt={row.name}
-            className="w-8 h-8 rounded-full object-cover"
-            width={16} height={16}
-          />
+          {row.image ? (
+            <Image
+              src={row.image}
+              alt={row.name}
+              className="w-8 h-8 rounded-full object-cover"
+              width={16}
+              height={16}
+            />
+          ) : (
+            <div className="w-8 h-8 rounded-full bg-dark-400" aria-hidden />
+          )}
           <div className="flex flex-col">
             <span className="font-semibold text-purple-100">{row.name}</span>
             <span className="text-xs text-purple-100/60 uppercase">

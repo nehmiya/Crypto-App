@@ -25,7 +25,7 @@ const CoinsCandleStick = async({id}: {id: string}) => {
     <div id="coin-overview">
       <CandleStickChartClient
         data={coinOHLCData ?? []}
-        coinId="bitcoin"
+        coinId={id}
         initialPeriod="daily"
         height={360}
       >
@@ -34,7 +34,7 @@ const CoinsCandleStick = async({id}: {id: string}) => {
             <>
               <Image
                 src={coin.image.large}
-                alt="BitCoin"
+                 alt={coin.name}
                 width={56}
                 height={56}
               />

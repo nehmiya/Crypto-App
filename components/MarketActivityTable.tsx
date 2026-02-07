@@ -25,7 +25,7 @@ type Props = {
 };
 
 const compactNumber = (value?: number | null) => {
-  if (value === null || value === undefined || isNaN(value)) return "0";
+  if (value === null || value === undefined || isNaN(value)) return "—";
   return new Intl.NumberFormat(undefined, {
     notation: "compact",
     maximumFractionDigits: 1,
@@ -86,7 +86,12 @@ const MarketActivityTable: React.FC<Props> = ({ tickers }) => {
       header: "Last Price",
       headClassName: "text-right",
       cellClassName: "text-right",
-      cell: (row: CoinTicker) => <div>{formatCurrency(row.last ?? 0)}</div>,
+      cell: (row: CoinTicker) =>
+        row.last == null ? (
+          <div>—</div>
+        ) : (
+          <div>{formatCurrency(row.last)}</div>
+        ),
     },
     {
       header: "24h Volume",
