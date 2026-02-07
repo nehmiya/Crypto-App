@@ -119,7 +119,7 @@ const MarketActivityTable: React.FC<Props> = ({ tickers }) => {
 
   return (
     <div className="trades">
-      <h4 className="mb-3 text-lg font-semibold">Market Activity</h4>
+      <h4 className="mb-3  mt-3 text-xl font-semibold">Market Activity</h4>
       <DataTable
         columns={columns as any}
         data={rows}
